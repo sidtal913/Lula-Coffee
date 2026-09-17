@@ -1,0 +1,20 @@
+# Frontend integration notes for Lula Coffee (LC-3)
+version: 1
+openapi: spec/api.openapi.yaml
+auth: spec/auth.yaml
+generatedTypes: lib/api/schema.d.ts
+client: lib/api/client.ts
+screens:
+  - route: /
+    purpose: Landing — hero CTA routes to /shop
+  - route: /shop
+    purpose: Product listing with category and roast filters
+  - route: /shop/[slug]
+    purpose: Product detail and add to cart
+auth:
+  provider: lib/auth/context.tsx
+  scheme: bearerAuth
+  defaultRole: customer
+state:
+  cart: lib/cart/context.tsx
+  wishlist: lib/wishlist/context.tsx

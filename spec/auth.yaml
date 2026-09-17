@@ -1,0 +1,42 @@
+# Provisional auth contract — backend publishes canonical rows when ready.
+version: 1
+securitySchemes:
+  bearerAuth:
+    type: http
+    scheme: bearer
+    bearerFormat: JWT
+    description: Access token issued after customer or admin sign-in.
+
+roles:
+  customer:
+    description: Authenticated shopper — browse, cart, checkout.
+    scopes:
+      - products:read
+      - cart:read
+      - cart:write
+      - orders:read
+      - orders:write
+  admin:
+    description: Internal operators — catalog and order management only.
+    scopes:
+      - products:read
+      - products:write
+      - orders:read
+      - orders:write
+      - admin:access
+
+defaultRole: customer
+
+tokenClaims:
+  sub: User identifier
+  role: customer | admin
+  scope: Space-delimited scope list matching roles above
+  exp: Expiration (Unix seconds)
+
+protectedSurfaces:
+  - path: /cart/*
+    roles: [customer]
+  - path: /orders/*
+    roles: [customer]
+  - path: /admin/*
+    roles: [admin]
