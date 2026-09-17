@@ -1,0 +1,181 @@
+openapi: 3.0.3
+info:
+  title: Lula Coffee API
+  version: 0.1.0
+  description: Provisional contract for frontend integration. Backend publishes canonical version.
+servers:
+  - url: /api/v1
+    description: Application API base
+security:
+  - bearerAuth: []
+paths:
+  /products:
+    get:
+      operationId: listProducts
+      summary: List catalog products
+      security: []
+      parameters:
+        - name: category
+          in: query
+          schema:
+            type: string
+            enum: [beans, equipment, gifts, subscriptions]
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 24
+      responses:
+        "200":
+          description: Product collection
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductListResponse"
+  /products/{productId}:
+    get:
+      operationId: getProduct
+      summary: Product detail
+      security: []
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Product
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        "404":
+          description: Not found
+  /cart/items:
+    post:
+      operationId: addCartItem
+      summary: Add line item to cart
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AddCartItemRequest"
+      responses:
+        "201":
+          description: Updated cart
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cart"
+  /cart:
+    get:
+      operationId: getCart
+      summary: Current cart
+      responses:
+        "200":
+          description: Cart
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cart"
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    ProductListResponse:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/Product"
+    Product:
+      type: object
+      required:
+        - id
+        - slug
+        - name
+        - description
+        - priceCents
+        - currency
+        - category
+        - imageUrl
+        - roastLevel
+        - origin
+        - inStock
+      properties:
+        id:
+          type: string
+        slug:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        priceCents:
+          type: integer
+        currency:
+          type: string
+          example: USD
+        category:
+          type: string
+          enum: [beans, equipment, gifts, subscriptions]
+        imageUrl:
+          type: string
+          format: uri
+        roastLevel:
+          type: string
+          enum: [light, medium, medium-dark, dark]
+        origin:
+          type: string
+        inStock:
+          type: boolean
+        rating:
+          type: number
+          minimum: 0
+          maximum: 5
+        reviewCount:
+          type: integer
+          minimum: 0
+    AddCartItemRequest:
+      type: object
+      required: [productId, quantity]
+      properties:
+        productId:
+          type: string
+        quantity:
+          type: integer
+          minimum: 1
+          maximum: 99
+    CartLine:
+      type: object
+      required: [productId, quantity, unitPriceCents]
+      properties:
+        productId:
+          type: string
+        quantity:
+          type: integer
+        unitPriceCents:
+          type: integer
+    Cart:
+      type: object
+      required: [id, lines, subtotalCents, currency]
+      properties:
+        id:
+          type: string
+        lines:
+          type: array
+          items:
+            $ref: "#/components/schemas/CartLine"
+        subtotalCents:
+          type: integer
+        currency:
+          type: string
