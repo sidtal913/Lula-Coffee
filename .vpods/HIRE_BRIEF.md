@@ -1,34 +1,23 @@
 # Hire brief
 Project: Lula Coffee
-Hire agent: rae
-Jira: LC-3
-Task id: task_eb2fd530
-Title: Frontend: Build the Lula Coffee experience against the API contract
-Shape: page
+Hire agent: knox
+Jira: LC-2
+Task id: task_f58e4d55
+Title: Backend: Implement Lula Coffee backend services
+Shape: api-route
 ## Description
-Ship the UI / page / component work only — not the API, schema, or server.
-Do not implement backend controllers, OpenAPI, or database migrations on this card.
+Ship the backend API and data layer only — not the React / UI pages.
+Include connection/config stubs and a minimal health or hello endpoint when greenfield.
+Do not rewrite frontend pages.
 Parent brief:
-Build the Lula Coffee experience against the API contract
-Delivery order: 3.
+Implement Lula Coffee backend services
+Delivery order: 2.
 
-Requires: delivery-order 2
+Requires: delivery-order 1
 
-Read spec/api.openapi.yaml and spec/auth.yaml. Implement the primary screens and generated client.
+Stand up the routes, auth, and persistence behind the OpenAPI contract. Auth: authenticated users; requires JWT bearer token; scopes: customer role. Schema: fields id, createdAt, updatedAt plus domain attributes from the brief; reuse the existing table/entity when one already covers this domain. Contract: OpenAPI request/response payload shapes. Do not invent fields the UI did not agree. Given the OpenAPI contract, When the service is exercised, Then protected routes require a bearer token.
 
-Design Brief:
-- Audience: people using Lula Coffee
-- Goal: complete the main job from the brief
-- Primary action: the conversion or next step on the home screen
-- Design mode: Premium SaaS
-- Required sections: navigation, photographic hero with headline and CTA, product grid or primary content, footer
-- Imagery: real photography for the category (Brand Kit only)
-- Avoid: generic card grid, placeholder copy, inventing API fields
-
-Visual structure: navigation; photographic hero with headline and CTA; product grid; footer.
-Given a visitor opens Lula Coffee, When they follow the primary CTA, Then they reach the main conversion without invented API fields.
-
-Auth: authenticated users; requires JWT bearer token; scopes: customer role. Admin surface: admin only.
+Visual structure: navigation; photographic hero with headline and CTA for Lula Coffee; product grid or primary content section; footer. Imagery: real photography for the category (Brand Kit only — no invented brand). In scope: first viewport / hero + primary CTA only. Out of scope: other pages and payment processors.
 
 ## Scope
 In scope: the primary landing / hero and the named user flow on this card.
@@ -36,11 +25,11 @@ Out of scope: other pages, payment processors, admin consoles, and work this tic
 
 Labels: vpods-generated
 ## Acceptance criteria
-- FE surfaces in the parent brief ship and render.
-- Build/run notes for the frontend only (or leave to the docs ticket).
+- API / data work in the parent brief is implemented.
+- PostgreSQL (or named DB) config documented when required.
+- At least one runnable API endpoint when the brief calls for it.
 ## Rules
 - Read `.vpods/FRONTEND_AGENT.md` (frontend), `.vpods/MAYA_AGENT.md` (iOS), `.vpods/PROJECT.md`, `.vpods/CRAFT_*.md` (packed craft grammar including `CRAFT_UX.md` / `CRAFT_MOTION.md` / `CRAFT_IOS.md` when present), `.vpods/DESIGN_PACK.md` when present, and Brand Kit when present before writing code.
 - Stay on this ticket's lane. Do not rewrite sibling hire pages/APIs unless required for integration.
 - Ship a complete artifact for this shape — not a stub.
 - If the brief is genuinely ambiguous, ask exactly one intake question before writing code (waiting-on-answer). After generation starts, do not stop mid-execution to ask.
-- Frontend: replicate attached mockups under `public/design-refs/` (composition, photography, bands). Labels on the mockup are direction, not a copy deck.
