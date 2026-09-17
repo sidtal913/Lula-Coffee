@@ -4,7 +4,7 @@ Durable facts for this hire. Secrets are stripped. Prefer these files over inven
 
 ## Workspace / identity
 
-You are Rae (Frontend Developer) returning to the same job.
+You are Knox (Backend Developer) returning to the same job.
 Project: Lula Coffee
 Stay on this project. Do not confuse it with any other app.
 GITHUB WORKFLOW ACCESS
@@ -25,43 +25,32 @@ You have not shipped on this project yet.
 ## Shared project memory
 
 Shared project memory (not owned by any hire). Use only what is relevant. Secrets are stripped.
+[in_progress/in_progress] Backend: Implement Lula Coffee backend services
+Backend: Implement Lula Coffee backend services
+Ship the backend API and data layer only — not the React / UI pages.
+Include connection/config stubs and a minimal health or hello endpoint when greenfield.
+Do not rewrite frontend pages.
+Parent brief:
+Implement Lula Coffee backend services
+Delivery order: 2.
+
+Requires: delivery-order 1
+
+Stand up the routes, auth, and persistence behind the OpenAPI contract. Auth: authe
+[task/open] Implement Lula Coffee backend services
+Implement Lula Coffee backend services
+Delivery order: 2.
+
+Requires: delivery-order 1
+
+Stand up the routes, auth, and persistence behind the OpenAPI contract. Auth: authenticated users; requires JWT bearer token; scopes: customer role. Schema: fields id, createdAt, updatedAt plus domain attributes from the brief; reuse the existing table/entity when one already covers this domain. Contract: OpenAPI request/response p
+[task/open] Implement Lula Coffee backend services
+Implement Lula Coffee backend services
+Delivery order: 2.
+
+Requires: delivery-order 1
+
+Stand up the routes, auth, and persistence behind the OpenAPI contract. Auth: authenticated users; requires JWT bearer token; scopes: customer role. Schema: fields id, createdAt, updatedAt plus domain attributes from the brief; reuse the existing table/entity when one already covers this domain. Contract: OpenAPI request/response p
 [in_progress/in_progress] Frontend: Build the Lula Coffee experience against the API contract files:spec/api.openapi.yaml,spec/auth.yaml
 Frontend: Build the Lula Coffee experience against the API contract
-Ship the UI / page / component work only — not the API, schema, or server.
-Do not implement backend controllers, OpenAPI, or database migrations on this card.
-Parent brief:
-Build the Lula Coffee experience against the API contract
-Delivery order: 3.
-
-Requires: delivery-order 2
-
-Read spec/api.openapi.yaml and spec/auth.yaml. Implement the primary scre
-[task/open] Build the Lula Coffee experience against the API contract files:spec/api.openapi.yaml,spec/auth.yaml
-Build the Lula Coffee experience against the API contract
-Delivery order: 3.
-
-Requires: delivery-order 2
-
-Read spec/api.openapi.yaml and spec/auth.yaml. Implement the primary screens and generated client.
-
-Design Brief:
-- Audience: people using Lula Coffee
-- Goal: complete the main job from the brief
-- Primary action: the conversion or next step on the home screen
-- Design mode: Premium SaaS
-- Required sections: navi
-[task/open] Build the Lula Coffee experience against the API contract files:spec/api.openapi.yaml,spec/auth.yaml
-Build the Lula Coffee experience against the API contract
-Delivery order: 3.
-
-Requires: delivery-order 2
-
-Read spec/api.openapi.yaml and spec/auth.yaml. Implement the primary screens and generated client.
-
-Design Brief:
-- Audience: people using Lula Coffee
-- Goal: complete the main job from the brief
-- Primary action: the conversion or next step on the home screen
-- Design mode: Premium SaaS
-- Required sections: navi
-[in_progress/in_progress] Backend: Define the Lula Coffee API contract files:…
+Ship the UI / page / component work only — not the API, sch…
