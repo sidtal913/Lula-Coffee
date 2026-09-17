@@ -1,0 +1,12 @@
+title: Lula Coffee Architecture
+version: 1.0.0
+stack:
+  api: nextjs-app-router-route-handlers
+  runtime: node20
+  persistence: postgresql-prisma
+  auth: jwt-application-layer
+layers:
+  contract: spec/api.openapi.yaml
+  auth: spec/auth.yaml
+  handlers: app/api/**
+  data: prisma/schema.prisma
