@@ -1,0 +1,36 @@
+# Lula Coffee — runtime environments (application config; not Terraform)
+title: Lula Coffee Environments
+version: 1.0.0
+
+defaults:
+  nodeEnv: development
+  apiBasePath: /api
+
+variables:
+  DATABASE_URL:
+    required: true
+    description: |
+      PostgreSQL connection string for Prisma.
+      Example (local): postgresql://lula:lula@localhost:5432/lula_coffee?schema=public
+    example: postgresql://lula:lula@localhost:5432/lula_coffee?schema=public
+  JWT_SECRET:
+    required: true
+    description: HS256 signing secret for development and staging JWT validation.
+    minLength: 32
+  JWT_ISSUER:
+    required: false
+    default: lula-coffee-api
+    description: Optional iss claim validation.
+  PORT:
+    required: false
+    default: "3000"
+    description: Next.js listen port.
+
+localPostgres:
+  documentation: |
+    Start PostgreSQL locally (Docker example):
+      docker run --name lula-pg -e POSTGRES_USER=lula -e POSTGRES_PASSWORD=lula \
+        -e POSTGRES_DB=lula_coffee -p 5432:5432 -d postgres:16-alpine
+    Then copy .env.example to .env, set DATABASE_URL and JWT_SECRET, and run:
+      npm run db:push
+      npm run db:seed
