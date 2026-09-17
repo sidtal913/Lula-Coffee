@@ -1,0 +1,68 @@
+# Lula Coffee — persistence model (PostgreSQL via Prisma)
+title: Lula Coffee Data Model
+version: 1.0.0
+
+entities:
+  Product:
+    table: products
+    description: Catalog items — coffee, organic coffee, mugs, tea.
+    fields:
+      id:
+        type: uuid
+        primaryKey: true
+      createdAt:
+        type: timestamptz
+      updatedAt:
+        type: timestamptz
+      name:
+        type: string
+        maxLength: 200
+      slug:
+        type: string
+        unique: true
+        maxLength: 220
+      description:
+        type: text
+        nullable: true
+      priceCents:
+        type: integer
+        minimum: 0
+      category:
+        type: enum
+        values: [coffee, organic_coffee, mugs, tea]
+      sku:
+        type: string
+        unique: true
+        maxLength: 64
+      imageUrl:
+        type: string
+        nullable: true
+      inStock:
+        type: boolean
+        default: true
+    indexes:
+      - fields: [category]
+      - fields: [slug]
+
+  CartLine:
+    table: cart_lines
+    description: Per-customer cart line (customer-scoped by userId).
+    fields:
+      id:
+        type: uuid
+        primaryKey: true
+      createdAt:
+        type: timestamptz
+      updatedAt:
+        type: timestamptz
+      userId:
+        type: string
+        indexed: true
+      productId:
+        type: uuid
+        foreignKey: Product.id
+      quantity:
+        type: integer
+        minimum: 1
+    uniqueConstraints:
+      - [userId, productId]

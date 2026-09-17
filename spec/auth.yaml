@@ -1,0 +1,86 @@
+# Lula Coffee — application auth (Knox / LC-1)
+# Tokens are validated in app code (JWT bearer). Mira provisions Cognito/gateway separately.
+
+openapi: 3.0.3
+info:
+  title: Lula Coffee Auth
+  version: 1.0.0
+  description: JWT bearer authentication and role scopes for the Lula Coffee API.
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: |
+        HS256 JWT signed with JWT_SECRET (dev/staging) or issuer JWKS in production.
+        Required claims: sub (user id), role (customer | admin), iat, exp.
+
+  schemas:
+    Role:
+      type: string
+      enum: [customer, admin]
+
+    JwtClaims:
+      type: object
+      required: [sub, role, iat, exp]
+      properties:
+        sub:
+          type: string
+          description: Stable user identifier
+        role:
+          $ref: '#/components/schemas/Role'
+        email:
+          type: string
+          format: email
+        scope:
+          type: string
+          description: Space-separated scopes (optional mirror of role)
+        iat:
+          type: integer
+        exp:
+          type: integer
+
+security:
+  - bearerAuth: []
+
+paths: {}
+
+x-lula-auth:
+  model: jwt-bearer
+  algorithms: [HS256]
+  header: Authorization
+  prefix: Bearer
+  roles:
+    customer:
+      description: Authenticated shopper; cart and profile routes.
+      scopes: [customer]
+    admin:
+      description: Store operator; admin product management only.
+      scopes: [admin]
+  routePolicy:
+    public:
+      - GET /api/health
+      - GET /api/v1/products
+      - GET /api/v1/products/{productId}
+    customer:
+      - GET /api/v1/cart
+      - PUT /api/v1/cart
+      - GET /api/v1/me
+    admin:
+      - GET /api/v1/admin/products
+      - POST /api/v1/admin/products
+      - PATCH /api/v1/admin/products/{productId}
+      - DELETE /api/v1/admin/products/{productId}
+  denial:
+    missingOrInvalidToken:
+      status: 401
+      body:
+        error: unauthorized
+        message: Bearer token required or invalid
+    insufficientRole:
+      status: 403
+      body:
+        error: forbidden
+        message: Insufficient role for this resource
